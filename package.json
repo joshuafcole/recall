@@ -1,0 +1,27 @@
+{
+  "name": "recall",
+  "version": "0.0.0",
+  "description": "Workspace persistence plugin for Light Table.",
+  "main": "recall.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/joshuafcole/recall"
+  },
+  "keywords": [
+    "light",
+    "table",
+    "recall",
+    "persist",
+    "workspace"
+  ],
+  "author": "Joshua M. Cole",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "jquery": "~1.8.3",
+    "underscore": "~1.5.2"
+  }
+}
