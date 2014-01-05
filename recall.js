@@ -7,34 +7,56 @@
   var appWindow = gui.Window.get();
 
 
-
   // Local Requires
   var localRoot = path.join(lt.util.load.pwd, 'plugins', 'recall');
-  var util = require(path.join(localRoot, 'lib', 'util'))(window);
-  var requireLocal = util.requireLocal;
-
+  var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
+  var requireLocal = ltrap.requireLocal;
   var _ = requireLocal('underscore');
   var $ = requireLocal('jquery');
 
+  /*\
+  |*| Attempt the given operation, ignoring errors with the given code.
+  \*/
+  function ignore(callback, codes) {
+    if(!_.isArray(codes)) {
+      codes = [codes];
+    }
+
+    try {
+      return callback();
+    } catch (err) {
+      if(err.code in codes) {
+        return;
+      }
+      throw err;
+    }
+  }
 
   var recall = window.recall || {};
+  // Makes it easier to tweak live by piping into LTUI. Can be disabled
+  // or moved if NS pollution is an issue.
   window.recall = recall;
   if(recall.initialized) {
     return recall;
   }
   recall.initialized = true;
 
+  // Mapping of workspace names to workspace paths. This will eventually be user configurable.
   recall.workspaces = {
     'default': path.join(localRoot, 'workspaces', 'default.json')
   };
 
+  /*\
+  |*| Gets the contents of the active workspace in LT.
+  \*/
   recall.getWorkspace = function(workspace) {
     var contents;
 
     if(!workspace) {
       contents = {
         protocol: 0,
-        tabs: util.getTabs()
+        tabs: ltrap.getTabs(),
+        lastActive: ltrap.getActiveFile()
       };
     }
     else {
@@ -44,53 +66,48 @@
     return contents;
   };
 
+  /*\
+  |*| Loads the given contents into the active workspace in LT.
+  \*/
   recall.setWorkspace = function(contents) {
     for(var i = 0; i < contents.tabs.length; i++) {
       var tabset = contents.tabs[i];
       if(i !== 0) {
-        util.command('tabset.new');
-        util.command('tabset.next');
+        ltrap.command('tabset.new');
+        ltrap.command('tabset.next');
       }
 
-      _.each(tabset, util.open);
+      _.each(tabset, _.partial(ltrap.command, 'open-path'));
     }
   };
 
-  function ignore(callback, code) {
-    try {
-      return callback();
-    } catch (err) {
-      if(err.code !== code) {
-        throw err;
-      }
-    }
-  }
-
-  // Synchronous due to an issue within LT exiting before async events finish pumping.
+  /*\
+  |*| Writes the active workspace to the specified file in the workspaces map.
+  |*| @NOTE: Synchronous due to an issue within LT exiting before async events finish pumping.
+  \*/
   recall.write = function(workspace) {
     var wsPath = recall.workspaces[workspace];
-
-    ignore(_.partial(fs.mkdirSync, path.dirname(wsPath)), 'EEXIST');
-    ignore(_.partial(fs.unlinkSync, wsPath), 'ENOENT');
+    ignore(_.partial(fs.mkdirSync, path.dirname(wsPath)), 'EEXIST'); // If the directory exists we're good.
+    ignore(_.partial(fs.unlinkSync, wsPath), 'ENOENT'); // If the file doesn't already exist we're good.
     fs.writeFileSync(wsPath, JSON.stringify(recall.getWorkspace()));
   };
 
-
+  /*\
+  |*| Reads the specified workspace file into the active workspace.
+  \*/
   recall.read = function(workspace) {
     fs.readFile(recall.workspaces[workspace], function(err, data) {
       if(err) {
         throw err;
       }
-      try {
-        recall.setWorkspace(JSON.parse(data));
-      } catch(err) {
-        throw err;
-      }
 
+      // @TODO: Consider if this can be better handled when erroring.
+      recall.setWorkspace(JSON.parse(data));
     });
   };
 
   // Bind events.
+  // @TODO: Configure these as default behaviors instead of hardcoded events.
   $(document).ready(function() {
     recall.read('default');
   });
@@ -99,11 +116,3 @@
     recall.write('default');
   });
 })(window);
-
-
-// 1. Listen for lt to close (does this cover forced closes?
-//    If not, Perhaps listen for fopen/close).
-//    Use DOM events. No idea how to add a listener not associated w/ a behavior
-//    And trying to reverse engineer behaviors sounds fairly heavyweight.
-// 2. Record opened files as a list within each tabgroup. tabs[groupIdx][fileIdx]
-// 3. On lt open, if behavior is included, restore last workspace.
