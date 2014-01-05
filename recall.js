@@ -27,7 +27,6 @@
   recall.workspaces = {
     'default': path.join(localRoot, 'workspaces', 'default.json')
   };
-  console.log(recall.workspaces);
 
   recall.getWorkspace = function(workspace) {
     var contents;
@@ -48,7 +47,6 @@
   recall.setWorkspace = function(contents) {
     for(var i = 0; i < contents.tabs.length; i++) {
       var tabset = contents.tabs[i];
-      console.log('TS##', tabset);
       if(i !== 0) {
         util.command('tabset.new');
         util.command('tabset.next');
@@ -81,10 +79,9 @@
   recall.read = function(workspace) {
     fs.readFile(recall.workspaces[workspace], function(err, data) {
       if(err) {
-        return console.log(err);
+        throw err;
       }
       try {
-        console.log('read:', JSON.parse(data));
         recall.setWorkspace(JSON.parse(data));
       } catch(err) {
         throw err;
