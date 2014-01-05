@@ -11,26 +11,10 @@
   var localRoot = path.join(lt.util.load.pwd, 'plugins', 'recall');
   var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
   var requireLocal = ltrap.requireLocal;
+  var ignore = ltrap.ignore;
   var _ = requireLocal('underscore');
   var $ = requireLocal('jquery');
 
-  /*\
-  |*| Attempt the given operation, ignoring errors with the given code.
-  \*/
-  function ignore(callback, codes) {
-    if(!_.isArray(codes)) {
-      codes = [codes];
-    }
-
-    try {
-      return callback();
-    } catch (err) {
-      if(err.code in codes) {
-        return;
-      }
-      throw err;
-    }
-  }
 
   var recall = window.recall || {};
   // Makes it easier to tweak live by piping into LTUI. Can be disabled
