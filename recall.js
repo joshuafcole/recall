@@ -8,7 +8,7 @@
 
 
   // Local Requires
-  var localRoot = path.join(lt.util.load.pwd, 'plugins', 'recall');
+  var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'recall');
   var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
   var requireLocal = ltrap.requireLocal;
   var ignore = ltrap.ignore;

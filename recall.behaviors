@@ -1,3 +1,2 @@
-{:+ {:app [(:lt.objs.plugins/load-js "recall.js" true)
-           (:lt.objs.plugins/load-keymap "recall.keymap")]
+{:+ {:app [(:lt.objs.plugins/load-js "recall.js" true)]
 }}
