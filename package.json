@@ -23,6 +23,6 @@
   "dependencies": {
     "jquery": "~1.8.3",
     "underscore": "~1.5.2",
-    "ltrap": "git+ssh://git@github.com:joshuafcole/ltrap.git"
+    "ltrap": "git+https://github.com/joshuafcole/ltrap.git"
   }
 }
