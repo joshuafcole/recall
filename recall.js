@@ -82,6 +82,9 @@
   recall.read = function(workspace) {
     fs.readFile(recall.workspaces[workspace], function(err, data) {
       if(err) {
+        if(err.code === 'ENOENT') {
+          return;
+        }
         throw err;
       }
 
