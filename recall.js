@@ -32,22 +32,18 @@
   /*\
   |*| Gets the contents of the active workspace in LT.
   \*/
-  recall.getWorkspace = function(workspace) {
-    var contents;
-
-    if(!workspace) {
-      contents = {
+  recall.getWorkspace = function() {
+    var contents = {
         protocol: 0,
         tabs: ltrap.getTabs(),
         lastActive: ltrap.getActiveFile()
       };
-    }
-    else {
-      contents = 'MULTIPLE WORKSPACES NOT YET IMPLEMENTED.';
-    }
 
     return contents;
   };
+
+  recall.setWorkspace = function(workspace) {
+  }
 
   /*\
   |*| Loads the given contents into the active workspace in LT.
@@ -68,7 +64,7 @@
   |*| Writes the active workspace to the specified file in the workspaces map.
   |*| @NOTE: Synchronous due to an issue within LT exiting before async events finish pumping.
   \*/
-  recall.write = function(workspace) {
+  recall.save = function(workspace) {
     var wsPath = recall.workspaces[workspace];
     ignore(_.partial(fs.mkdirSync, path.dirname(wsPath)), 'EEXIST'); // If the directory exists we're good.
     ignore(_.partial(fs.unlinkSync, wsPath), 'ENOENT'); // If the file doesn't already exist we're good.
@@ -78,7 +74,7 @@
   /*\
   |*| Reads the specified workspace file into the active workspace.
   \*/
-  recall.read = function(workspace) {
+  recall.load = function(workspace) {
     fs.readFile(recall.workspaces[workspace], function(err, data) {
       if(err) {
         if(err.code === 'ENOENT') {
@@ -95,10 +91,10 @@
   // Bind events.
   // @TODO: Configure these as default behaviors instead of hardcoded events.
   $(document).ready(function() {
-    recall.read('default');
+    recall.load('default');
   });
 
   appWindow.on('close', function(event) {
-    recall.write('default');
+    recall.save('default');
   });
 })(window);
