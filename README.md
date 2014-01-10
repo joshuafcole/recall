@@ -20,10 +20,10 @@ To install from source:
 
 
 ## Changelog
-0.0.1 Inital Release
-0.0.2 Minor cleanup and plugin manager integration.
-0.0.3 Removal of jQuery dependency
-0.0.4 Bundle node_modules on release branch to negate the need for dependency installation when using plugin manager.
+* 0.0.1 Inital Release
+* 0.0.2 Minor cleanup and plugin manager integration.
+* 0.0.3 Removal of jQuery dependency
+* 0.0.4 Bundle node_modules on release branch to negate the need for dependency installation when using plugin manager.
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/joshuafcole/recall/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
