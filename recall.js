@@ -10,19 +10,18 @@
   // Local Requires
   var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'recall');
   var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
-  var requireLocal = ltrap.requireLocal;
   var ignore = ltrap.ignore;
-  var _ = requireLocal('underscore');
-  var $ = requireLocal('jquery');
+  var _ = ltrap.require('underscore');
+  var $ = ltrap.require('jquery');
 
 
-  var recall = window.recall || {};
+  var recall = lt.plugins.recall || {};
   // Makes it easier to tweak live by piping into LTUI. Can be disabled
   // or moved if NS pollution is an issue.
-  window.recall = recall;
   if(recall.initialized) {
     return recall;
   }
+  lt.plugins.recall = recall;
   recall.initialized = true;
 
   // Mapping of workspace names to workspace paths. This will eventually be user configurable.
