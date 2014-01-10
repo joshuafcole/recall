@@ -6,22 +6,23 @@
   var gui = require('nw.gui');
   var appWindow = gui.Window.get();
 
+  if(!lt.user_plugins) {
+    lt.user_plugins = {};
+  }
+
 
   // Local Requires
   var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'recall');
   var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
   var ignore = ltrap.ignore;
   var _ = ltrap.require('underscore');
-  var $ = ltrap.require('jquery');
 
 
-  var recall = lt.plugins.recall || {};
-  // Makes it easier to tweak live by piping into LTUI. Can be disabled
-  // or moved if NS pollution is an issue.
+  var recall = lt.user_plugins.recall || {};
   if(recall.initialized) {
     return recall;
   }
-  lt.plugins.recall = recall;
+  lt.user_plugins.recall = recall;
   recall.initialized = true;
 
   // Mapping of workspace names to workspace paths. This will eventually be user configurable.
@@ -90,9 +91,7 @@
 
   // Bind events.
   // @TODO: Configure these as default behaviors instead of hardcoded events.
-  $(document).ready(function() {
-    recall.load('default');
-  });
+  recall.load('default');
 
   appWindow.on('close', function(event) {
     recall.save('default');
