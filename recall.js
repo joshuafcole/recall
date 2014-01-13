@@ -12,7 +12,14 @@
 
 
   // Local Requires
-  var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'Recall');
+  if (fs.existsSync(path.join(lt.objs.plugins.user_plugins_dir, 'Recall'))){
+    var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'Recall'); //When installed through the plugin manager, the Recall folder is created with an upper case
+  }
+  else
+  {
+    var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'recall'); //When recalled is manually cloned from the repository, the recall folder is created with a lower case
+  }
+
   var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
   var ignore = ltrap.ignore;
   var _ = ltrap.require('underscore');
