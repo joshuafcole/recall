@@ -12,7 +12,7 @@
 
 
   // Local Requires
-  var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'recall');
+  var localRoot = path.join(lt.objs.plugins.user_plugins_dir, 'Recall');
   var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
   var ignore = ltrap.ignore;
   var _ = ltrap.require('underscore');
