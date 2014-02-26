@@ -25,7 +25,7 @@
 
 
   var recall = lt.user_plugins.recall || {};
-  if(recall.initialized) {
+  if(recall.initialized || (lt.objs.app.window_number() != 0)) {
     return recall;
   }
   lt.user_plugins.recall = recall;
