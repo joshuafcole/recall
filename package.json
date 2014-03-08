@@ -1,8 +1,8 @@
 {
   "name": "recall",
-  "version": "0.0.6",
+  "version": "0.1.1",
   "description": "Workspace persistence plugin for Light Table.",
-  "main": "recall.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +22,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "underscore": "~1.5.2",
-    "ltrap": "git+https://github.com/joshuafcole/ltrap.git#0.0.2"
+    "ltrap": "git+https://github.com/joshuafcole/ltrap.git#0.2.2",
+    "indeks": "git+https://github.com/joshuafcole/indeks.git"
   }
 }
