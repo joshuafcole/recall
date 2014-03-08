@@ -2,7 +2,7 @@
   var lt = window.lt;
   var path = require('path');
 
-  var root = lt.objs.plugins.adjust_path(''); console.log('ROOT', root);
+  var root = lt.objs.plugins.adjust_path('');
   if(!root) {
     throw new Error("plugin could not be found by LT:", root);
   }
