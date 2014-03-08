@@ -1,27 +1,25 @@
 (function nodePluginBootstrap(window) {
   var lt = window.lt;
   var path = require('path');
-  var fs = require('fs');
 
-  var localRoot = lt.objs.plugins.adjust_path('');
-  if(!localRoot) {
-    throw new Error("plugin could not be found by LT:", localRoot);
+  var root = lt.objs.plugins.adjust_path(''); console.log('ROOT', root);
+  if(!root) {
+    throw new Error("plugin could not be found by LT:", root);
   }
 
-  var ltrap = require(path.join(localRoot, 'node_modules', 'ltrap'))(window, localRoot);
+  var ltrap = require(path.join(root, 'node_modules', 'ltrap'))({
+    root: root,
+    nwRequire: require,
+    window: window,
+  });
+
   var pkg = ltrap.require('package');
 
-  if(!lt.user_plugins) {
-    lt.user_plugins = {};
+  if(!lt.js_plugins) {
+    lt.js_plugins = {};
   }
 
   // Initiate new plugin instance.
-  console.log('alive');
-  plugin = ltrap.require(path.join('lib', pkg.name))(window, {
-    root: localRoot,
-    nwRequire: require
-  });
-  plugin.init();
-
-  lt.user_plugins[pkg.name] = plugin;
+  var plugin = ltrap.require(path.join('lib', pkg.name));
+  lt.js_plugins[pkg.name] = plugin;
 })(window);
