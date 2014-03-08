@@ -16,6 +16,7 @@
   }
 
   // Initiate new plugin instance.
+  console.log('alive');
   plugin = ltrap.require(path.join('lib', pkg.name))(window, {
     root: localRoot,
     nwRequire: require
