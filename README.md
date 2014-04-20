@@ -21,6 +21,7 @@ $ cd recall && npm install
 
 
 ## Changelog
+* 0.1.3 Adds support for recalling cursor position Fixes #14 - @chenglou.
 * 0.1.2 Fixes first run bug where listing saved workspaces failed due to missing workspace dir.
 * 0.1.1 Bumps protocol, should migrate automatically, adds support for per-tabset active tabs.
 * 0.1.0 Stable release with support for remembering multiple tabsets.
