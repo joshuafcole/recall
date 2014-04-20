@@ -1,6 +1,6 @@
 {
   "name": "recall",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Workspace persistence plugin for Light Table.",
   "main": "index.js",
   "scripts": {
