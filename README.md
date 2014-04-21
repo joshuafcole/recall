@@ -21,6 +21,7 @@ $ cd recall && npm install
 
 
 ## Changelog
+* 0.1.5 Fixes migration for protocol 1..2 #15.
 * 0.1.4 Fixes bug in migration system.
 * 0.1.3 Adds support for recalling cursor position Fixes #14 - @chenglou.
 * 0.1.2 Fixes first run bug where listing saved workspaces failed due to missing workspace dir.
