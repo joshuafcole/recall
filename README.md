@@ -21,6 +21,7 @@ $ cd recall && npm install
 
 
 ## Changelog
+* 0.1.6 Makes the cursor save/load system more robust with non-files.
 * 0.1.5 Fixes migration for protocol 1..2 #15.
 * 0.1.4 Fixes bug in migration system.
 * 0.1.3 Adds support for recalling cursor position Fixes #14 - @chenglou.
